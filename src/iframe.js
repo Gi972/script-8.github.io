@@ -125,7 +125,11 @@ window.script8.callCode = ({ game, sfxs, run, endCallback = noop }) => {
       };
     `)
     if (timer) timer.stop()
-    timer = interval(() => {
+    let previousElapsed
+    timer = interval(elapsed => {
+      const fps = 1000 / (elapsed - previousElapsed)
+      console.log({ fps: Math.floor(fps) })
+      previousElapsed = elapsed
       try {
         updateKeys()
         geval('update && update(); draw && draw();')
